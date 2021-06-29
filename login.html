@@ -1,0 +1,72 @@
+
+<html>
+
+    <head>
+   
+           <script src="account.js"></script>
+   
+    </head>
+   
+     <body>
+   
+        <form>
+   
+               Enter Username:<input type="text" id="username"> <span style="color:red" id="usr_message"></span> <br><br>
+               Enter Password: <input type="password" id="password"> <span style="color:red" id="pwd_message"></span><br><br>
+                <button onclick="authenticate()">Login </button> 
+                <button onclick="register()">Register </button> 
+        </form>
+        
+        <script>
+   
+   
+   var accountHolderList=[];
+   
+   var allAccountHolders=JSON.parse(localStorage.getItem('Account_Holders'));
+   for(var i=0;i<allAccountHolders.length;i++){
+      var username= allAccountHolders[i].username;
+      accountHolderList.push(username);
+   }
+   
+   console.log(accountHolderList);
+   
+                    function authenticate(){
+                        event.preventDefault();
+                       
+                      var  username= getValueById("username");
+   
+                            if(accountHolderList.includes(username)){
+                               var password =getValueById("password");
+   
+                                allAccountHolders.forEach(function(accountHolder){
+                                       if(accountHolder.username == username){
+                                            if(accountHolder.password == password){
+                                                  location.href="account.html";
+                                            }
+                                            else
+                                            {
+                                                document.getElementById('pwd_message').innerHTML="Password incorrect!!";
+                                                return;
+                                            }
+                                       }
+                                })
+   
+                            }
+                            else
+                            {
+                               document.getElementById('usr_message').innerHTML="Username not registered!!";
+                               return;
+                            }
+   
+                      
+                       //  allCustomers.forEach(function(customer){
+                       //  })
+                    }
+   
+                    
+        
+        </script>
+   
+     </body>
+   
+   </html>

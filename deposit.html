@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        Enter Account Number:<input type="number" id="AccountNo"><br><br>
+        Enter Amount:<input type="number" id="amount"><br><br>
+        <button onclick="deposit()">deposit</button>
+        <h1 id="AccountDetails"></h1>
+       </form>
+    <script>
+        function deposit(){
+            event.preventDefault();
+
+     AccNo=document.getElementById("AccountNo").value;
+
+     amount=parseInt(document.getElementById("amount").value);
+ 
+     var allCustomers =JSON.parse(localStorage.getItem('customers'));
+
+     console.log(allCustomers);
+
+     for(var index=0;index<allCustomers.length;index++){
+
+                var accountNumber= allCustomers[index].accountNumber;
+
+                if(accountNumber==AccNo){
+
+                  allCustomers[index].accountBalance= parseInt(allCustomers[index].accountBalance)+amount;
+                  localStorage.setItem('customers',JSON.stringify(allCustomers));
+            
+                document.getElementById("AccountDetails").innerHTML="current balance is:"+allCustomers[index].accountBalance;
+
+                   return;
+
+                }
+
+     }
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+
+<html>
+    <body>
+
+            <form id="depositForm">
+
+                    From Account:<input type="text" id="fromAccount"> <br><br>
+                    To Account:<input type="text" id="toAccount"> <br><br>
+                    Enter Amount: <input type="text" id="amount"><br><br>
+                     <button onclick="transfer()">Transfer</button>
+        
+                      <h1 id="account_details"></h1>
+                 </form>
+
+                  <script>
+
+var allCustomers=JSON.parse(localStorage.getItem('customers'));
+
+console.log(allCustomers);
+
+var accountList=[];
+
+    for(var i=0;i<allCustomers.length;i++){
+
+       var customerAccNo= allCustomers[i].accountNumber;
+
+         accountList.push(customerAccNo);
+    }
+    console.log(accountList);
+
+                           function transfer(){
+                             event.preventDefault();
+                            var fromAccount= document.getElementById('fromAccount').value;
+                            var toAccount= document.getElementById('toAccount').value;
+                            var amount= parseInt(document.getElementById('amount').value);
+                                 
+                           var account_details= document.getElementById('account_details');
+
+                           var transactionUpate="<h1>";
+
+                            if(accountList.includes(fromAccount) && accountList.includes(toAccount)){
+                                for(var i=0;i<allCustomers.length;i++){
+                                    var customer= allCustomers[i];
+                                             
+                                       if(customer.accountNumber == fromAccount){
+
+                                            console.log("Before Transaction",customer.accountBalance);
+                                             
+                                              transactionUpate= "From Account: "+fromAccount +transactionUpate + "before trasaction: "+ customer.accountBalance + "<br>";
+
+                                           customer.accountBalance= customer.accountBalance - amount;
+                                           console.log("After transaction", customer.accountBalance);
+                                           transactionUpate=transactionUpate + "after trasaction: "+customer.accountBalance + "<br>";
+
+
+                                       }
+                                       if(customer.accountNumber == toAccount){
+
+                                        console.log("Before Transaction",customer.accountBalance);
+                                        transactionUpate= "To Account:"+ toAccount +transactionUpate + "after trasaction: "+customer.accountBalance + "<br>";
+                                        customer.accountBalance= customer.accountBalance + amount;
+
+                                           console.log("After transaction", customer.accountBalance);
+                                           transactionUpate=transactionUpate + "after trasaction: "+customer.accountBalance + "<br>";
+                                       }
+                                     }
+                            }
+                            account_details.innerHTML=transactionUpate;
+                                 
+                             localStorage.setItem('customers',JSON.stringify(allCustomers));
+                           }
+                             
+                  
+                  </script>
+    </body>
+</html>
